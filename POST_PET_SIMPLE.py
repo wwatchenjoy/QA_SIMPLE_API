@@ -15,7 +15,7 @@ post_params = post_headers
 create_pet_simple_POST_link = "https://petfriends1.herokuapp.com/api/create_pet_simple"
 
 
-def post_api(link, post_params, post_headers):
+def post_simple_pet(link, post_params, post_headers):
     response = requests.post(link,
                              params=post_params,
                              headers=post_headers
@@ -30,4 +30,4 @@ def post_api(link, post_params, post_headers):
     return response.text
 
 
-print(post_api(create_pet_simple_POST_link, post_params, post_headers))
+print(post_simple_pet(create_pet_simple_POST_link, post_params, post_headers))

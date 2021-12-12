@@ -9,14 +9,18 @@ get_params = get_headers
 
 api_key_link = "https://petfriends1.herokuapp.com/api/key"
 
-response = requests.get(api_key_link,
-                        params=get_params,
-                        headers=get_headers
-                        )
-if response.status_code == 200:
-    print("OK")
+def get_api_key(link, params, headers):
 
-if response.ok:
-    print("OK")
+    response = requests.get(link,
+                            params=params,
+                            headers=headers
+                            )
+    if response.status_code == 200:
+        print("OK")
 
-print(response.text)
+    if response.ok:
+        print("OK")
+
+    return response.text
+
+print(get_api_key(api_key_link, get_params, get_headers))

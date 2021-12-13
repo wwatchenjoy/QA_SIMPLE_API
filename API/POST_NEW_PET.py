@@ -2,9 +2,9 @@ import requests
 
 post_new_pet_headers = {
     "auth_key": "003c6904c7f44a085a12f9bf146415bb3d72270254cfd4dc8e0bd1e2",
-    "name": "John",
+    "name": "Tonny Montana",
     "animal_type": "monkey",
-    "age": '1',
+    "age": '4',
     "pet_photo": ""
 }
 

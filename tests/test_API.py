@@ -6,9 +6,9 @@ import requests
 # POST PET SIMPLE
 post_simple_headers = {
     "auth_key": "003c6904c7f44a085a12f9bf146415bb3d72270254cfd4dc8e0bd1e2",
-    "name": "Bob",
-    "animal_type": "German Shepherd",
-    "age": '2'
+    "name": "Bombastic",
+    "animal_type": "Big Bad Boy",
+    "age": '6'
 }
 post_simple_params = post_simple_headers
 create_pet_simple_POST_link = "https://petfriends1.herokuapp.com/api/create_pet_simple"
@@ -32,9 +32,9 @@ my_pets_link = "https://petfriends1.herokuapp.com/api/pets?filter=my_pets"
 # NEW PET
 post_new_pet_headers = {
     "auth_key": "003c6904c7f44a085a12f9bf146415bb3d72270254cfd4dc8e0bd1e2",
-    "name": "John",
+    "name": "Tonny Montana",
     "animal_type": "monkey",
-    "age": '1',
+    "age": '4',
     "pet_photo": ""
 }
 post_new_pet_params = post_new_pet_headers
@@ -51,29 +51,28 @@ set_photo_POST_link = "https://petfriends1.herokuapp.com/api/pets/set_photo/" + 
 # DELETE
 delete_pet_headers = {
     "auth_key": "003c6904c7f44a085a12f9bf146415bb3d72270254cfd4dc8e0bd1e2",
-    "pet_id": "526c71d9-3787-4b72-b04f-da90293b869b"
+    "pet_id": "0f1b6134-dbdb-4fee-8f47-3e213895cb42"
 }
 delete_pet_params = delete_pet_headers
-DELETE_pet_link = "https://petfriends1.herokuapp.com/api/pets/" + "526c71d9-3787-4b72-b04f-da90293b869b"
+DELETE_pet_link = "https://petfriends1.herokuapp.com/api/pets/" + "0f1b6134-dbdb-4fee-8f47-3e213895cb42"
 
 # PUT INFO
 put_info_headers = {
     "auth_key": "003c6904c7f44a085a12f9bf146415bb3d72270254cfd4dc8e0bd1e2",
-    "pet_id": "2a352474-8d13-4ca0-a0e5-ee82fb3ab474"
+    "pet_id": "9c565e54-5271-4c95-9615-61f2d0bc509e"
 }
 put_info_params = put_info_headers
-put_info_link = "https://petfriends1.herokuapp.com/api/pets/" + "2a352474-8d13-4ca0-a0e5-ee82fb3ab474"
+put_info_link = "https://petfriends1.herokuapp.com/api/pets/" + "9c565e54-5271-4c95-9615-61f2d0bc509e"
 
 
+# ФИКСТУРЫ
 @pytest.fixture
 def post_simple_pet(link, post_params, post_headers):
     response = requests.post(link,
                              params=post_params,
                              headers=post_headers
                              )
-
-    if response.status_code == 200:
-        return True
+    return response.ok
 
 
 @pytest.fixture
@@ -103,8 +102,7 @@ def post_new_pet(link, post_params, post_headers):
                              headers=post_headers,
                              files={"pet_photo": open('monkey.jpg', 'rb')}
                              )
-    if response.status_code == 200:
-        return True
+    return response.ok
 
 
 @pytest.fixture
@@ -114,8 +112,7 @@ def post_set_photo(link, post_params, post_headers):
                              headers=post_headers,
                              files={"pet_photo": open('dog.jpg', 'rb')}
                              )
-    if response.status_code == 200:
-        return True
+    return response.ok
 
 
 @pytest.fixture
@@ -129,11 +126,65 @@ def delete_pet(link, del_params, del_headers):
 
 
 @pytest.fixture
-def put_pet_info(link, p_params, p_headers):
-    response = requests.put(link,
-                            params=p_params,
-                            headers=p_headers
+def put_pet_info():
+    response = requests.put(put_info_link,
+                            params=put_info_params,
+                            headers=put_info_headers
                             )
-    if response.status_code == 200:
-        return True
+    return response.ok
 
+
+# ТЕСТЫ
+@pytest.mark.parametrize('link, params, header, expected_result',
+                         [  # post_simple_pet
+                             (create_pet_simple_POST_link, post_simple_params, post_simple_headers, True),
+
+                             # post_new_pet
+                             (new_pet_POST_link, post_new_pet_params, post_new_pet_headers, False),
+
+                             # post_set_photo
+                             pytest.param(set_photo_POST_link, post_set_photo_params, post_set_photo_headers, True,
+                                          marks=pytest.mark.xfail),
+                             # pytest.param(set_photo_POST_link, post_set_photo_params, post_set_photo_headers, True,
+                             #              marks=pytest.mark.xfail)
+                         ]
+                         )
+def test_post(link, params, header, expected_result):
+    response = requests.post(link,
+                             params=params,
+                             headers=header
+                             )
+    assert response.ok == expected_result
+
+
+@pytest.mark.parametrize('link, params, header, expected_result',
+                         [  # get_api_key
+                             (api_key_link, get_key_params, get_key_headers, True),
+
+                             # get_my_pets_list
+                             (my_pets_link, get_params_my_pets, get_headers_my_pets, True)
+                         ]
+                         )
+def test_get(link, params, header, expected_result):
+    response = requests.get(link,
+                            params=params,
+                            headers=header
+                            )
+    assert response.ok == expected_result
+
+
+@pytest.mark.parametrize('link, params, header, expected_result',
+                         [
+                             (DELETE_pet_link, delete_pet_params, delete_pet_headers, True)
+                         ]
+                         )
+def test_delete(link, params, header, expected_result):
+    response = requests.delete(link,
+                               params=params,
+                               headers=header
+                               )
+    assert response.ok == expected_result
+
+
+def test_put(put_pet_info):
+    assert put_pet_info == True

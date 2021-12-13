@@ -1,12 +1,11 @@
 import requests
-
 # "key": "003c6904c7f44a085a12f9bf146415bb3d72270254cfd4dc8e0bd1e2"
 
 
 # POST PET SIMPLE
 post_simple_headers = {
     "auth_key": "003c6904c7f44a085a12f9bf146415bb3d72270254cfd4dc8e0bd1e2",
-    "name": "Bob",
+    "name": "Bob1",
     "animal_type": "German Shepherd",
     "age": '2'
 }
@@ -27,7 +26,9 @@ def post_simple_pet(link, post_params, post_headers):
     if response.ok:
         print("OK")
 
-    return response.text
+    print(type(response), type(response.ok))
+    return response.ok
 
 
 print(post_simple_pet(create_pet_simple_POST_link, post_simple_params, post_simple_headers))
+

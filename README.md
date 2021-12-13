@@ -33,4 +33,4 @@
 
 Обновить информацию о животном:
 ![image](https://user-images.githubusercontent.com/71213226/145869231-8fc7ebbd-2ea2-4d85-88fd-8caf1485b267.png)
-
+---

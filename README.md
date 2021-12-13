@@ -53,7 +53,7 @@ https://github.com/wwatchenjoy/QA_File_manager
 Таким образом, ошибка в тест-кейсе отображается как ожидаемая, что не ломает тестировку.
 ![image](https://user-images.githubusercontent.com/71213226/145871157-e5a4052e-6516-4258-9dca-706363330431.png)
 
-Так же тест по фикстуре был применен к единственной функции PUT
+Так же тест по фикстуре был применен к единственной функции PUT:
 ![image](https://user-images.githubusercontent.com/71213226/145871287-4134389a-70d7-4e50-b779-15d1eb9417a9.png)
 
 ### Итоги
